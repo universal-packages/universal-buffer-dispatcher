@@ -1,4 +1,4 @@
-# Time Measurer
+# Buffer Dispatcher
 
 [![npm version](https://badge.fury.io/js/@universal-packages%2Fbuffer-dispatcher.svg)](https://www.npmjs.com/package/@universal-packages/buffer-dispatcher)
 [![Testing](https://github.com/Universal-Packages/universal-buffer-dispatcher/actions/workflows/testing.yml/badge.svg)](https://github.com/Universal-Packages/universal-buffer-dispatcher/actions/workflows/testing.yml)
