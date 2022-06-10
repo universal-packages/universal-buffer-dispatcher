@@ -1,6 +1,6 @@
 {
   "name": "@universal-packages/buffer-dispatcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility to measure routines times with precision",
   "author": "David De Anda <david@universal-packages.com> (https://github.com/universal-packages)",
   "license": "MIT",
