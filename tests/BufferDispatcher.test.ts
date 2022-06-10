@@ -13,7 +13,7 @@ describe('BufferDispatcher', (): void => {
       messages.push(payload.message)
     }
 
-    const bufferDispatcher = new BufferDispatcher({ dispatcher })
+    const bufferDispatcher = new BufferDispatcher(dispatcher)
 
     bufferDispatcher.append({ message: '1' })
     bufferDispatcher.append({ message: '2' })
@@ -34,7 +34,7 @@ describe('BufferDispatcher', (): void => {
       messages.push(payload.message)
     }
 
-    const bufferDispatcher = new BufferDispatcher({ dispatcher })
+    const bufferDispatcher = new BufferDispatcher(dispatcher)
 
     bufferDispatcher.append({ message: '1' })
     bufferDispatcher.append({ message: '2' })
@@ -58,7 +58,7 @@ describe('BufferDispatcher', (): void => {
       messages.push(payload.message)
     }
 
-    const bufferDispatcher = new BufferDispatcher({ dispatcher })
+    const bufferDispatcher = new BufferDispatcher(dispatcher)
 
     bufferDispatcher.append({ message: '1' })
     bufferDispatcher.append({ message: '2' })
@@ -79,7 +79,7 @@ describe('BufferDispatcher', (): void => {
         throw new Error()
       }
 
-      const bufferDispatcher = new BufferDispatcher<Payload>({ dispatcher })
+      const bufferDispatcher = new BufferDispatcher<Payload>(dispatcher)
 
       bufferDispatcher.append({ message: 'Bad batch' })
 

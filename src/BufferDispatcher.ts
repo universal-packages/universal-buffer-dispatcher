@@ -1,4 +1,4 @@
-import { BufferDispatcherOptions } from './BufferDispatcher.types'
+import { Dispacther } from './BufferDispatcher.types'
 
 /**
  *
@@ -7,14 +7,14 @@ import { BufferDispatcherOptions } from './BufferDispatcher.types'
  *
  */
 export default class BufferDispatcher<T> {
-  private readonly options: BufferDispatcherOptions<T>
+  private readonly dispatcher: Dispacther<T>
   private bussy = false
   private buffer: T[] = []
   private dispatchPromise: Promise<void>
   private stopping = false
 
-  public constructor(options: BufferDispatcherOptions<T>) {
-    this.options = options
+  public constructor(dispatcher: Dispacther<T>) {
+    this.dispatcher = dispatcher
   }
 
   /** Adds a new entry to the buffer and starts dispaching if not already active */
@@ -71,7 +71,7 @@ export default class BufferDispatcher<T> {
       const next = this.buffer.shift()
 
       try {
-        await this.options.dispatcher(next)
+        await this.dispatcher(next)
       } catch (error) {
         error.cause = `On Buffer Dispacther with enrty ${JSON.stringify(next)}`
 

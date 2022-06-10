@@ -1,3 +1,1 @@
-export interface BufferDispatcherOptions<T> {
-  dispatcher: (entry: T) => Promise<void> | void
-}
+export type Dispacther<T> = (entry: T) => Promise<void>
