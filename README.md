@@ -74,11 +74,11 @@ const bussy = bufferDispatcher.isBussy()
 ```
 ## Typescript
 
-Time Measurer is developed in TypeScript and shipped fully typed.
+This library is developed in TypeScript and shipped fully typed.
 
 ## Contributing
 
-Development of Time Measurer happens in the open on GitHub, and we are grateful to the community for contributing bugfixes and improvements. Read below to learn how you can take part in improving Recoil.
+The development of this library happens in the open on GitHub, and we are grateful to the community for contributing bugfixes and improvements. Read below to learn how you can take part in improving this library.
 
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
 - [Contributing Guide](./CONTRIBUTING.md)
