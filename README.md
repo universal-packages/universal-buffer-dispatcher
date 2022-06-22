@@ -42,7 +42,7 @@ console.log(messages)
 Stopes the buffer dispatcher and clears the rest of the entries to not be despatched anymore.
 
 ```js
-bufferDispatcher.claer()
+bufferDispatcher.clear()
 ```
 
 ### .stop()
@@ -56,6 +56,10 @@ await bufferDispatcher.stop()
 ### .continue()
 
 In case the buffer dispatcher was stoped, it resumes the dispatching.
+
+```js
+await bufferDispatcher.continue()
+```
 
 ### .await()
 
@@ -72,6 +76,7 @@ Returns `true` or `false` depending on if the buffer dispatcher is currently dis
 ```js
 const bussy = bufferDispatcher.isBussy()
 ```
+
 ## Typescript
 
 This library is developed in TypeScript and shipped fully typed.
