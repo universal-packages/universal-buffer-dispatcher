@@ -17,9 +17,11 @@ npm install @universal-packages/buffer-dispatcher
 It accumulates an array of entries and will call the dispatcher for every single one of them but awaiting before dispatching the next one.
 
 ```js
+import { BufferDispatcher } from '@universal-packages/buffer-dispatcher'
+
 const messages = []
 
-const dispatcher = async (payload) => {
+const dispatcher = async (payload) => {s
   sleep(payload.timeToWait)
   messages.push(payload.message)
 }

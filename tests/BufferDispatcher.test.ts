@@ -1,5 +1,5 @@
-import BufferDispatcher from '../src'
-import TimeMeasurer from '@universal-packages/time-measurer'
+import { sleep } from '@universal-packages/time-measurer'
+import { BufferDispatcher } from '../src'
 
 interface Payload {
   message: string
@@ -9,7 +9,7 @@ describe('BufferDispatcher', (): void => {
   it('makes sure async calls are executed in a linear way and in the specified order', async (): Promise<void> => {
     const messages: string[] = []
     const dispatcher = async (payload: Payload): Promise<void> => {
-      await TimeMeasurer.sleep(Math.random())
+      await sleep(Math.random())
       messages.push(payload.message)
     }
 
@@ -30,7 +30,7 @@ describe('BufferDispatcher', (): void => {
   it('can stops and continue any time', async (): Promise<void> => {
     const messages: string[] = []
     const dispatcher = async (payload: Payload): Promise<void> => {
-      await TimeMeasurer.sleep(Math.random())
+      await sleep(Math.random())
       messages.push(payload.message)
     }
 
@@ -54,7 +54,7 @@ describe('BufferDispatcher', (): void => {
   it('can be cleared to stop and clear future dispatches', async (): Promise<void> => {
     const messages: string[] = []
     const dispatcher = async (payload: Payload): Promise<void> => {
-      await TimeMeasurer.sleep(Math.random())
+      await sleep(Math.random())
       messages.push(payload.message)
     }
 
