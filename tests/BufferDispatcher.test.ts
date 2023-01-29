@@ -1,4 +1,3 @@
-import { sleep } from '@universal-packages/time-measurer'
 import { BufferDispatcher } from '../src'
 
 interface Payload {
@@ -9,7 +8,7 @@ describe('BufferDispatcher', (): void => {
   it('makes sure async calls are executed in a linear way and in the specified order', async (): Promise<void> => {
     const messages: string[] = []
     const dispatcher = async (payload: Payload): Promise<void> => {
-      await sleep(Math.random())
+      await new Promise((resolve) => setTimeout(resolve, Math.random()))
       messages.push(payload.message)
     }
 
@@ -20,7 +19,7 @@ describe('BufferDispatcher', (): void => {
     bufferDispatcher.append({ message: '3' })
     bufferDispatcher.append({ message: '4' })
 
-    expect(bufferDispatcher.isBussy()).toBeTruthy()
+    expect(bufferDispatcher.isBusy()).toBeTruthy()
 
     await bufferDispatcher.await()
 
@@ -30,7 +29,7 @@ describe('BufferDispatcher', (): void => {
   it('can stops and continue any time', async (): Promise<void> => {
     const messages: string[] = []
     const dispatcher = async (payload: Payload): Promise<void> => {
-      await sleep(Math.random())
+      await new Promise((resolve) => setTimeout(resolve, Math.random()))
       messages.push(payload.message)
     }
 
@@ -54,7 +53,7 @@ describe('BufferDispatcher', (): void => {
   it('can be cleared to stop and clear future dispatches', async (): Promise<void> => {
     const messages: string[] = []
     const dispatcher = async (payload: Payload): Promise<void> => {
-      await sleep(Math.random())
+      await new Promise((resolve) => setTimeout(resolve, Math.random()))
       messages.push(payload.message)
     }
 
@@ -88,6 +87,6 @@ describe('BufferDispatcher', (): void => {
       errorToTest = error
     }
 
-    expect(errorToTest.cause).toEqual('On Buffer Dispacther with enrty {"message":"Bad batch"}')
+    expect(errorToTest.cause).toEqual('On Buffer Dispatcher with entry {"message":"Bad batch"}')
   })
 })
