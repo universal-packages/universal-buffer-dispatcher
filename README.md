@@ -41,22 +41,22 @@ console.log(messages)
 
 ### Constructor
 
-####**`(dispatcher: Function)`**
+#### **`(dispatcher: Function)`**
 ### Instance methods
 
-####**`clear()`**
+#### **`clear()`**
 Stops the buffer dispatcher and clears the rest of the entries to not be despatched anymore.
 
-####**`stop()`**
+#### **`stop()`**
 Stops the buffer dispatcher and leaves intact the rest of the entries to be processed later.
 
-####**`continue()`**
+#### **`continue()`**
 In case the buffer dispatcher was stopped, it resumes the dispatching.
 
-####**`await()`**
+#### **`await()`**
 Returns a promise that will only be resolved once all entries have been dispatched.
 
-####**`isBusy()`**
+#### **`isBusy()`**
 Returns `true` or `false` depending on if the buffer dispatcher is currently dispatching.
 
 ## Typescript
