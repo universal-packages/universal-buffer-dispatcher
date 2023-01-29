@@ -21,7 +21,7 @@ import { BufferDispatcher } from '@universal-packages/buffer-dispatcher'
 
 const messages = []
 
-const dispatcher = async (payload) => {s
+const dispatcher = async (payload) => {
   sleep(payload.timeToWait)
   messages.push(payload.message)
 }
@@ -39,45 +39,25 @@ console.log(messages)
 // > ['1', '2', '3', '4']
 ```
 
-### .clear()
+### Constructor
 
-Stopes the buffer dispatcher and clears the rest of the entries to not be despatched anymore.
+####**`(dispatcher: Function)`**
+### Instance methods
 
-```js
-bufferDispatcher.clear()
-```
+####**`clear()`**
+Stops the buffer dispatcher and clears the rest of the entries to not be despatched anymore.
 
-### .stop()
+####**`stop()`**
+Stops the buffer dispatcher and leaves intact the rest of the entries to be processed later.
 
-Stopes the buffer dispatcher and leaves intact the rest of the entries to be processed later.
+####**`continue()`**
+In case the buffer dispatcher was stopped, it resumes the dispatching.
 
-```js
-await bufferDispatcher.stop()
-```
-
-### .continue()
-
-In case the buffer dispatcher was stoped, it resumes the dispatching.
-
-```js
-await bufferDispatcher.continue()
-```
-
-### .await()
-
+####**`await()`**
 Returns a promise that will only be resolved once all entries have been dispatched.
 
-```js
-await bufferDispatcher.await()
-```
-
-### .isBussy()
-
+####**`isBusy()`**
 Returns `true` or `false` depending on if the buffer dispatcher is currently dispatching.
-
-```js
-const bussy = bufferDispatcher.isBussy()
-```
 
 ## Typescript
 

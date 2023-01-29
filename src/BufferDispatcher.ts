@@ -1,4 +1,4 @@
-import { Dispacther } from './BufferDispatcher.types'
+import { Dispatcher } from './BufferDispatcher.types'
 
 /**
  *
@@ -7,17 +7,17 @@ import { Dispacther } from './BufferDispatcher.types'
  *
  */
 export default class BufferDispatcher<T> {
-  private readonly dispatcher: Dispacther<T>
-  private bussy = false
+  private readonly dispatcher: Dispatcher<T>
+  private busy = false
   private buffer: T[] = []
   private dispatchPromise: Promise<void>
   private stopping = false
 
-  public constructor(dispatcher: Dispacther<T>) {
+  public constructor(dispatcher: Dispatcher<T>) {
     this.dispatcher = dispatcher
   }
 
-  /** Adds a new entry to the buffer and starts dispaching if not already active */
+  /** Adds a new entry to the buffer and starts dispatching if not already active */
   public append(entry: T): void {
     this.buffer.push(entry)
     this.continue()
@@ -30,28 +30,28 @@ export default class BufferDispatcher<T> {
 
   /** Starts dispatching again in case it was stopped */
   public continue(): void {
-    if (!this.bussy) {
-      this.bussy = true
+    if (!this.busy) {
+      this.busy = true
       this.dispatchPromise = this.dispatchBuffer()
     }
   }
 
   /** Clears the current buffer */
   public async clear(): Promise<void> {
-    if (this.bussy) {
+    if (this.busy) {
       this.buffer = []
       return this.stop()
     }
   }
 
-  /** Returns true if the buffer cotains entries being dispatched */
-  public isBussy(): boolean {
-    return this.bussy
+  /** Returns true if the buffer cotans entries being dispatched */
+  public isBusy(): boolean {
+    return this.busy
   }
 
   /** Stops dispatching */
   public async stop(): Promise<void> {
-    if (this.bussy) {
+    if (this.busy) {
       this.stopping = true
       return await this.dispatchPromise
     }
@@ -60,10 +60,10 @@ export default class BufferDispatcher<T> {
   /** Loops and awaits the callback function for every single entry */
   private async dispatchBuffer(): Promise<void> {
     while (true) {
-      // Stop this dipatching loop if the directive is there
+      // Stop this dispatching loop if the directive is there
       if (this.stopping) {
         this.stopping = false
-        this.bussy = false
+        this.busy = false
         this.dispatchPromise = null
         break
       }
@@ -73,13 +73,13 @@ export default class BufferDispatcher<T> {
       try {
         await this.dispatcher(next)
       } catch (error) {
-        error.cause = `On Buffer Dispacther with enrty ${JSON.stringify(next)}`
+        error.cause = `On Buffer Dispatcher with entry ${JSON.stringify(next)}`
 
         throw error
       }
 
       if (this.buffer.length === 0) {
-        this.bussy = false
+        this.busy = false
         this.dispatchPromise = null
         this.stopping = false
         break

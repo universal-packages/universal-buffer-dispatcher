@@ -1,1 +1,1 @@
-export type Dispacther<T> = (entry: T) => Promise<void>
+export type Dispatcher<T> = (entry: T) => Promise<void>
