@@ -1,6 +1,6 @@
 {
   "name": "@universal-packages/buffer-dispatcher",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Utility to dispatch async tasks in a linear way",
   "author": "David De Anda <david@universal-packages.com> (https://github.com/universal-packages)",
   "license": "MIT",
