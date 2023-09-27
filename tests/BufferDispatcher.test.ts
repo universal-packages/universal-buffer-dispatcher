@@ -4,7 +4,7 @@ interface Payload {
   message: string
 }
 
-describe('BufferDispatcher', (): void => {
+describe(BufferDispatcher, (): void => {
   it('makes sure async calls are executed in a linear way and in the specified order', async (): Promise<void> => {
     const messages: string[] = []
     const dispatcher = async (payload: Payload): Promise<void> => {
