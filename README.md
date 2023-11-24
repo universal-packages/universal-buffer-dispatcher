@@ -26,7 +26,7 @@ const dispatcher = async (payload) => {
   messages.push(payload.message)
 }
 
-const bufferDispatcher = new BufferDispatcher(dispatcher)
+const bufferDispatcher = new BufferDispatcher({ entryDispatcher: dispatcher, onError: 'continue'})
 
 bufferDispatcher.append({ message: '1', timeToWait: 3000 })
 bufferDispatcher.append({ message: '2', timeToWait: 2000 })
