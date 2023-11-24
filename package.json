@@ -53,5 +53,9 @@
       "classProperties",
       "decorators-legacy"
     ]
+  },
+  "dependencies": {
+    "@universal-packages/event-emitter": "^1.0.0",
+    "eventemitter2": "^6.4.9"
   }
 }

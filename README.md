@@ -4,7 +4,7 @@
 [![Testing](https://github.com/universal-packages/universal-buffer-dispatcher/actions/workflows/testing.yml/badge.svg)](https://github.com/universal-packages/universal-buffer-dispatcher/actions/workflows/testing.yml)
 [![codecov](https://codecov.io/gh/universal-packages/universal-buffer-dispatcher/branch/main/graph/badge.svg?token=CXPJSN8IGL)](https://codecov.io/gh/universal-packages/universal-buffer-dispatcher)
 
-With the wonders of asynchronous routines in JavaScript you can achieve more performant and smooth applications, but sometimes you just want to take it easy with all the racing and make sure all you async tasks are still asynchronous from the rest of your application but not from other tasks, for example a task that mutates a state in a particular way, you want to give it a chance of mutating it in all the ways it needs to before another tasks mutastes it from another part of you app.
+With the wonders of asynchronous routines in JavaScript you can achieve more performant and smooth applications, but sometimes you just want to take it easy with all the racing and make sure all you async tasks are still asynchronous from the rest of your application but not from other tasks, for example a task that mutates a state in a particular way, you want to give it a chance of mutating it in all the ways it needs before another tasks mutates it from another part of you app.
 
 ## Install
 
@@ -22,7 +22,7 @@ import { BufferDispatcher } from '@universal-packages/buffer-dispatcher'
 const messages = []
 
 const dispatcher = async (payload) => {
-  sleep(payload.timeToWait)
+  await sleep(payload.timeToWait)
   messages.push(payload.message)
 }
 
@@ -42,22 +42,47 @@ console.log(messages)
 ### Constructor
 
 #### **`(dispatcher: Function)`**
+
 ### Instance methods
 
 #### **`clear()`**
+
 Stops the buffer dispatcher and clears the rest of the entries to not be despatched anymore.
 
 #### **`stop()`**
+
 Stops the buffer dispatcher and leaves intact the rest of the entries to be processed later.
 
 #### **`continue()`**
+
 In case the buffer dispatcher was stopped, it resumes the dispatching.
 
-#### **`await()`**
+### Getters
+
+#### **`await`**
+
 Returns a promise that will only be resolved once all entries have been dispatched.
 
-#### **`isBusy()`**
+#### **`busy`**
+
 Returns `true` or `false` depending on if the buffer dispatcher is currently dispatching.
+
+### Events
+
+Buffer Dispatcher will emit the following events:
+
+```js
+jobs.on('*', (event) => console.log(event))
+jobs.on('push', (event) => console.log(event))
+jobs.on('resuming', (event) => console.log(event))
+jobs.on('stopping', (event) => console.log(event))
+jobs.on('stopped', (event) => console.log(event))
+jobs.on('cleared', (event) => console.log(event))
+jobs.on('dispatching', (event) => console.log(event))
+jobs.on('dispatched', (event) => console.log(event))
+jobs.on('finished', (event) => console.log(event))
+jobs.on('error', (event) => console.log(event))
+```
 
 ## Typescript
 
