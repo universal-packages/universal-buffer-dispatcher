@@ -26,7 +26,7 @@ describe(BufferDispatcher, (): void => {
 
     expect(bufferDispatcher.busy).toBeTruthy()
 
-    await bufferDispatcher.await
+    await bufferDispatcher.waitFor('finished')
 
     expect(messages).toEqual(['1', '2', '3', '4'])
     expect(eventListener.mock.calls).toEqual([
@@ -43,7 +43,8 @@ describe(BufferDispatcher, (): void => {
       [{ event: 'dispatched', measurement: expect.any(Measurement), payload: { entry: { message: '3' } } }],
       [{ event: 'dispatching', payload: { entry: { message: '4' } } }],
       [{ event: 'dispatched', measurement: expect.any(Measurement), payload: { entry: { message: '4' } } }],
-      [{ event: 'finished' }]
+      [{ event: 'finished' }],
+      [{ event: 'idle' }]
     ])
   })
 
@@ -76,11 +77,12 @@ describe(BufferDispatcher, (): void => {
       [{ event: 'push', payload: { entry: { message: '4' } } }],
       [{ event: 'stopping' }],
       [{ event: 'dispatched', measurement: expect.any(Measurement), payload: { entry: { message: '1' } } }],
-      [{ event: 'stopped' }]
+      [{ event: 'stopped' }],
+      [{ event: 'idle' }]
     ])
 
     bufferDispatcher.continue()
-    await bufferDispatcher.await
+    await bufferDispatcher.waitFor('idle')
 
     expect(messages).toEqual(['1', '2', '3', '4'])
     expect(eventListener.mock.calls).toEqual([
@@ -93,6 +95,7 @@ describe(BufferDispatcher, (): void => {
       [{ event: 'stopping' }],
       [{ event: 'dispatched', measurement: expect.any(Measurement), payload: { entry: { message: '1' } } }],
       [{ event: 'stopped' }],
+      [{ event: 'idle' }],
       [{ event: 'resuming' }],
       [{ event: 'dispatching', payload: { entry: { message: '2' } } }],
       [{ event: 'dispatched', measurement: expect.any(Measurement), payload: { entry: { message: '2' } } }],
@@ -100,7 +103,8 @@ describe(BufferDispatcher, (): void => {
       [{ event: 'dispatched', measurement: expect.any(Measurement), payload: { entry: { message: '3' } } }],
       [{ event: 'dispatching', payload: { entry: { message: '4' } } }],
       [{ event: 'dispatched', measurement: expect.any(Measurement), payload: { entry: { message: '4' } } }],
-      [{ event: 'finished' }]
+      [{ event: 'finished' }],
+      [{ event: 'idle' }]
     ])
   })
 
@@ -122,7 +126,7 @@ describe(BufferDispatcher, (): void => {
     bufferDispatcher.push({ message: '4' })
 
     bufferDispatcher.clear()
-    await bufferDispatcher.await
+    await bufferDispatcher.waitFor('idle')
 
     expect(messages).not.toEqual(['1', '2', '3', '4'])
     expect(eventListener.mock.calls).toEqual([
@@ -135,7 +139,8 @@ describe(BufferDispatcher, (): void => {
       [{ event: 'cleared' }],
       [{ event: 'stopping' }],
       [{ event: 'dispatched', measurement: expect.any(Measurement), payload: { entry: { message: '1' } } }],
-      [{ event: 'finished' }]
+      [{ event: 'finished' }],
+      [{ event: 'idle' }]
     ])
   })
 
@@ -153,7 +158,7 @@ describe(BufferDispatcher, (): void => {
     bufferDispatcher.push({ message: 'Bad' })
     bufferDispatcher.push({ message: 'Good' })
 
-    await bufferDispatcher.await
+    await bufferDispatcher.waitFor('idle')
 
     expect(eventListener.mock.calls).toEqual([
       [{ event: 'push', payload: { entry: { message: 'Bad' } } }],
@@ -163,7 +168,8 @@ describe(BufferDispatcher, (): void => {
       [{ event: 'error', measurement: expect.any(Measurement), error: new Error('Bad'), payload: { entry: { message: 'Bad' } } }],
       [{ event: 'dispatching', payload: { entry: { message: 'Good' } } }],
       [{ event: 'dispatched', measurement: expect.any(Measurement), payload: { entry: { message: 'Good' } } }],
-      [{ event: 'finished' }]
+      [{ event: 'finished' }],
+      [{ event: 'idle' }]
     ])
   })
 
@@ -181,7 +187,7 @@ describe(BufferDispatcher, (): void => {
     bufferDispatcher.push({ message: 'Bad' })
     bufferDispatcher.push({ message: 'Good' })
 
-    await bufferDispatcher.await
+    await bufferDispatcher.waitFor('idle')
 
     expect(eventListener.mock.calls).toEqual([
       [{ event: 'push', payload: { entry: { message: 'Bad' } } }],
@@ -190,7 +196,8 @@ describe(BufferDispatcher, (): void => {
       [{ event: 'push', payload: { entry: { message: 'Good' } } }],
       [{ event: 'error', measurement: expect.any(Measurement), error: new Error('Bad'), payload: { entry: { message: 'Bad' } } }],
       [{ event: 'stopping' }],
-      [{ event: 'stopped' }]
+      [{ event: 'stopped' }],
+      [{ event: 'idle' }]
     ])
   })
 
@@ -208,7 +215,7 @@ describe(BufferDispatcher, (): void => {
     bufferDispatcher.push({ message: 'Bad' })
     bufferDispatcher.push({ message: 'Good' })
 
-    await bufferDispatcher.await
+    await bufferDispatcher.waitFor('idle')
 
     expect(eventListener.mock.calls).toEqual([
       [{ event: 'push', payload: { entry: { message: 'Bad' } } }],
@@ -218,7 +225,8 @@ describe(BufferDispatcher, (): void => {
       [{ event: 'error', measurement: expect.any(Measurement), error: new Error('Bad'), payload: { entry: { message: 'Bad' } } }],
       [{ event: 'cleared' }],
       [{ event: 'stopping' }],
-      [{ event: 'finished' }]
+      [{ event: 'finished' }],
+      [{ event: 'idle' }]
     ])
   })
 })

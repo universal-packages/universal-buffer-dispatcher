@@ -3,18 +3,8 @@ import { startMeasurement } from '@universal-packages/time-measurer'
 
 import { BufferDispatcherOptions } from './BufferDispatcher.types'
 
-/**
- *
- * It accumulates an array of entries and will call the dispatcher for
- * every single one of them but awaiting before dispatching the next one
- *
- */
 export default class BufferDispatcher<T> extends EventEmitter {
   public readonly options: BufferDispatcherOptions<T>
-
-  public get await(): Promise<void> {
-    return this.dispatchPromise
-  }
 
   public get busy(): boolean {
     return this.internalBusy
@@ -22,7 +12,6 @@ export default class BufferDispatcher<T> extends EventEmitter {
 
   private internalBusy = false
   private buffer: T[] = []
-  private dispatchPromise: Promise<void>
   private stopping = false
 
   public constructor(options: BufferDispatcherOptions<T>) {
@@ -30,7 +19,6 @@ export default class BufferDispatcher<T> extends EventEmitter {
     this.options = { onError: 'continue', ...options }
   }
 
-  /** Adds a new entry to the buffer and starts dispatching if not already active */
   public push(entry: T): void {
     this.buffer.push(entry)
 
@@ -39,17 +27,15 @@ export default class BufferDispatcher<T> extends EventEmitter {
     this.continue()
   }
 
-  /** Starts dispatching again in case it was stopped */
   public continue(): void {
     if (!this.internalBusy) {
       this.emit('resuming')
 
       this.internalBusy = true
-      this.dispatchPromise = this.dispatchBuffer()
+      this.dispatchBuffer()
     }
   }
 
-  /** Clears the current buffer */
   public async clear(): Promise<void> {
     if (this.internalBusy) {
       this.buffer = []
@@ -60,31 +46,29 @@ export default class BufferDispatcher<T> extends EventEmitter {
     }
   }
 
-  /** Stops dispatching */
   public async stop(): Promise<void> {
     if (this.internalBusy) {
       this.stopping = true
 
       this.emit('stopping')
 
-      return await this.dispatchPromise
+      await this.waitFor('idle')
     }
   }
 
-  /** Loops and awaits the callback function for every single entry */
   private async dispatchBuffer(): Promise<void> {
     while (true) {
-      // Stop this dispatching loop if the directive is there
       if (this.stopping) {
         this.stopping = false
         this.internalBusy = false
-        this.dispatchPromise = null
 
         if (this.buffer.length > 0) {
           this.emit('stopped')
         } else {
           this.emit('finished')
         }
+        this.emit('idle')
+
         break
       }
 
@@ -114,10 +98,10 @@ export default class BufferDispatcher<T> extends EventEmitter {
 
       if (this.buffer.length === 0) {
         this.internalBusy = false
-        this.dispatchPromise = null
         this.stopping = false
 
         this.emit('finished')
+        this.emit('idle')
         break
       }
     }

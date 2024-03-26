@@ -26,7 +26,7 @@ const dispatcher = async (payload) => {
   messages.push(payload.message)
 }
 
-const bufferDispatcher = new BufferDispatcher({ entryDispatcher: dispatcher, onError: 'continue'})
+const bufferDispatcher = new BufferDispatcher({ entryDispatcher: dispatcher, onError: 'continue' })
 
 bufferDispatcher.append({ message: '1', timeToWait: 3000 })
 bufferDispatcher.append({ message: '2', timeToWait: 2000 })
@@ -59,10 +59,6 @@ In case the buffer dispatcher was stopped, it resumes the dispatching.
 
 ### Getters
 
-#### **`await`**
-
-Returns a promise that will only be resolved once all entries have been dispatched.
-
 #### **`busy`**
 
 Returns `true` or `false` depending on if the buffer dispatcher is currently dispatching.
@@ -72,16 +68,17 @@ Returns `true` or `false` depending on if the buffer dispatcher is currently dis
 Buffer Dispatcher will emit the following events:
 
 ```js
-jobs.on('*', (event) => console.log(event))
-jobs.on('push', (event) => console.log(event))
-jobs.on('resuming', (event) => console.log(event))
-jobs.on('stopping', (event) => console.log(event))
-jobs.on('stopped', (event) => console.log(event))
-jobs.on('cleared', (event) => console.log(event))
-jobs.on('dispatching', (event) => console.log(event))
-jobs.on('dispatched', (event) => console.log(event))
-jobs.on('finished', (event) => console.log(event))
-jobs.on('error', (event) => console.log(event))
+instance.on('*', (event) => console.log(event))
+instance.on('push', (event) => console.log(event))
+instance.on('resuming', (event) => console.log(event))
+instance.on('stopping', (event) => console.log(event))
+instance.on('stopped', (event) => console.log(event))
+instance.on('idle', (event) => console.log(event))
+instance.on('cleared', (event) => console.log(event))
+instance.on('dispatching', (event) => console.log(event))
+instance.on('dispatched', (event) => console.log(event))
+instance.on('finished', (event) => console.log(event))
+instance.on('error', (event) => console.log(event))
 ```
 
 ## Typescript
