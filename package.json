@@ -15,6 +15,10 @@
     "format": "prettier --write \"./{src,tests}/**/*.{ts,tsx,js,jsx,json}\"",
     "update-universal-dependencies": "umaintenance update-universal-dependencies"
   },
+  "dependencies": {
+    "@universal-packages/event-emitter": "^1.1.5",
+    "@universal-packages/time-measurer": "^1.5.0"
+  },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.12",
@@ -53,9 +57,5 @@
       "classProperties",
       "decorators-legacy"
     ]
-  },
-  "dependencies": {
-    "@universal-packages/event-emitter": "^1.1.5",
-    "eventemitter2": "^6.4.9"
   }
 }
